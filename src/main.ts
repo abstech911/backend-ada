@@ -6,7 +6,9 @@ import * as dotenv from 'dotenv';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     dotenv.config();
-    app.enableCors();
+    app.enableCors({
+        origin: ['http://localhost:3000', 'https://example.com', 'http://yourdomain.com'],
+    });
     app.useGlobalPipes(new ValidationPipe(
         {
             whitelist: true,
