@@ -7,10 +7,9 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     dotenv.config();
     app.enableCors({
-        origin: ['https://backend-ada.vercel.app/', 'http://localhost:3000'],
-        methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
-        credentials: true,
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        origin: 'http://localhost:3001', // Allow requests from this origin
+        methods: ['GET', 'POST'], // Allow only GET and POST requests
+        allowedHeaders: ['Content-Type', 'Authorization'], //
     });
 
     app.useGlobalPipes(new ValidationPipe(
