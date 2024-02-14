@@ -13,9 +13,9 @@ async function bootstrap() {
     // });
     const whitelist = ['http://localhost:3001', 'api.example.com'];
     app.enableCors({
-        origin: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-
+        origin: '*', // Allow requests from all origins
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specified methods
+        allowedHeaders: ['Content-Type', 'Authorization'], // Allow specified headers
     });
     app.useGlobalPipes(new ValidationPipe(
         {
