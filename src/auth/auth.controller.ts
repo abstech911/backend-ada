@@ -29,7 +29,7 @@ export class AuthController {
             return {token}
         } catch (e) {
             console.log({e})
-            throw new UserAlreadyExistsException();
+            throw new UnauthorizedException();
         }
     }
 }
