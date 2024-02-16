@@ -1,8 +1,9 @@
-import {Body, ConflictException, Controller, Get, Post, UnauthorizedException} from '@nestjs/common';
+import {Body, ConflictException, Controller, Get, Post, UnauthorizedException, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SignInDto, SignUpDto} from "./dto/auth.dto";
 import { UserAlreadyExistsException} from "../exceptions/userexist.exception";
 import {PrismaService} from "../prisma/prisma.service";
+import {AuthGuard} from "./guard/auth.guard";
 
 @Controller('auth')
 export class AuthController {
@@ -30,6 +31,15 @@ export class AuthController {
         } catch (e) {
             console.log({e})
             throw new UnauthorizedException();
+        }
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('/sani')
+    async sign(){
+        try{}
+        catch (e) {
+            
         }
     }
 }
