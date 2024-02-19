@@ -1,9 +1,10 @@
 import {Body, ConflictException, Controller, Get, Post, UnauthorizedException, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SignInDto, SignUpDto} from "./dto/auth.dto";
-import { UserAlreadyExistsException} from "../exceptions/userexist.exception";
+import {UserAlreadyExistsException} from "../exceptions/userexist.exception";
 import {PrismaService} from "../prisma/prisma.service";
 import {AuthGuard} from "./guard/auth.guard";
+import {Public} from "./decorators/public.decorator";
 
 @Controller('auth')
 export class AuthController {
@@ -15,10 +16,8 @@ export class AuthController {
         try {
             const token = await this.authService.signUp(body);
             return {token}
-
         } catch (e) {
-            console.log(e);
-            return new ConflictException()
+            throw new ConflictException(e.message)
         }
 
     }
@@ -29,17 +28,17 @@ export class AuthController {
             const token = await this.authService.signIn(body);
             return {token}
         } catch (e) {
-            console.log({e})
+            console.log({e: e.message})
             throw new UnauthorizedException();
         }
     }
 
-    @UseGuards(AuthGuard)
+    @Public()
+    // @UseGuards(AuthGuard)
     @Get('/sani')
-    async sign(){
-        try{}
-        catch (e) {
-            
+    async sign() {
+        return {
+            sani: "Sani Abubakar"
         }
     }
 }

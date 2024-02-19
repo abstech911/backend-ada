@@ -13,6 +13,7 @@ import * as jwt from 'jsonwebtoken';
 import process from "process";
 import {EmailNotVerified, UserMismatch} from "../exceptions/userexist.exception";
 import {UserType} from "@prisma/client";
+import {JwtService} from '@nestjs/jwt'
 
 
 const firebaseConfig = {
@@ -39,31 +40,30 @@ interface SigninParams {
 
 @Injectable()
 export class AuthService {
-    private firebaseAuth: Auth;
+    private readonly firebaseAuth: Auth;
 
-    constructor(private readonly prismaService: PrismaService) {
-
+    constructor(private readonly prismaService: PrismaService, private readonly jwtService: JwtService) {
         const app = firebase.initializeApp(firebaseConfig);
         this.firebaseAuth = getAuth(app)
     }
 
     async signUp({email, password, name, phoneNumber}: SignupParams) {
         //    creating firebase user
-            const firebaseUser = await createUserWithEmailAndPassword(this.firebaseAuth, email, password);
+        const firebaseUser = await createUserWithEmailAndPassword(this.firebaseAuth, email, password);
 
-            const {uid} = firebaseUser.user;
+        const {uid} = firebaseUser.user;
 
-            const localUser = await this.prismaService.user.create({
-                data: {
-                    id: uid,
-                    email: email,
-                    user_type: UserType.REGULAR,
-                    name,
-                    phoneNumber
-                }
-            });
-            await sendEmailVerification(firebaseUser.user);
-            return this.generateJWT(uid, name, email);
+        const localUser = await this.prismaService.user.create({
+            data: {
+                id: uid,
+                email: email,
+                user_type: UserType.REGULAR,
+                name: name,
+                phoneNumber: phoneNumber
+            }
+        });
+        await sendEmailVerification(firebaseUser.user);
+        return this.generateJWT(uid, name, email);
 
     }
 
@@ -91,10 +91,6 @@ export class AuthService {
     }
 
     private generateJWT(uid: string, name: string, email: string) {
-        return jwt.sign(
-            {name, uid, email},
-            'Xw7d84aUEjj5JGu6UabZn73w8YMGa7TA2kfhgvnYZca4Sb0ctZKz01cpA1Ay509wFkeBzp6VFvtJGTSCjPxVGBFfiKmBnxTzyNiR',
-            {expiresIn: 36000000}
-        );
+        return this.jwtService.signAsync({name, uid, email});
     }
 }
