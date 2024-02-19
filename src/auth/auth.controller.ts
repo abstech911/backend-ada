@@ -12,7 +12,7 @@ export class AuthController {
     }
 
     @Post('/signup')
-    async signup(@Req() req,@Body() body: SignUpDto): Promise<any> {
+    async signup(@Req() req,@Body() body): Promise<any> {
         console.log("==============================================================================================================");
         console.log(req.body);
         console.log("==============================================================================================================");
