@@ -1,4 +1,4 @@
-import {Body, ConflictException, Controller, Get, Post, Req, UnauthorizedException, UseGuards} from '@nestjs/common';
+import {Body, ConflictException, Controller, Get, Post, UnauthorizedException, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SignInDto, SignUpDto} from "./dto/auth.dto";
 import {UserAlreadyExistsException} from "../exceptions/userexist.exception";
@@ -12,10 +12,8 @@ export class AuthController {
     }
 
     @Post('/signup')
-    async signup(@Req() req,@Body() body): Promise<any> {
-        console.log("==============================================================================================================");
-        console.log(req.body);
-        console.log("==============================================================================================================");
+    async signup(@Body() body: SignUpDto): Promise<any> {
+        console.log(body);
         try {
             const token = await this.authService.signUp(body);
             return {token}
@@ -31,8 +29,7 @@ export class AuthController {
             const token = await this.authService.signIn(body);
             return {token}
         } catch (e) {
-            console.log({e: e.message})
-            throw new UnauthorizedException();
+            throw new UnauthorizedException(e.message);
         }
     }
 
