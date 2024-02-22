@@ -13,7 +13,7 @@ export class AuthController {
 
     @Post('/signup')
     async signup(@Body() body: SignUpDto): Promise<any> {
-        console.log(body);
+         console.log(body);
         try {
             const token = await this.authService.signUp(body);
             return {token}

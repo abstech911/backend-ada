@@ -17,13 +17,13 @@ import {JwtService} from '@nestjs/jwt'
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDV-qslQsor6i55LMcN9DCgukD5aihny6Q",
-    authDomain: "ada-crypto.firebaseapp.com",
-    projectId: "ada-crypto",
-    storageBucket: "ada-crypto.appspot.com",
-    messagingSenderId: "39753178126",
-    appId: "1:39753178126:web:79c3e0591ae92bd385305f",
-    measurementId: "G-TCJYE0RQJQ"
+    apiKey: "AIzaSyDtYhkOLZRO_yYlWqEDcayhjVtHuUtjWA8",
+    authDomain: "ada-crypto-32c63.firebaseapp.com",
+    projectId: "ada-crypto-32c63",
+    storageBucket: "ada-crypto-32c63.appspot.com",
+    messagingSenderId: "284293185399",
+    appId: "1:284293185399:web:cd7f5376323ce03a8d2b72",
+    measurementId: "G-74CKCCH1QT"
 };
 
 interface SignupParams {
